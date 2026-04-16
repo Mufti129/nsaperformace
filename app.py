@@ -130,3 +130,51 @@ st.header("5. Business Recommendation")
 recommendation = generate_recommendation(corr, importance_df)
 for r in recommendation:
     st.write("-", r)
+
+st.header("6. Sales Prediction Simulator (Gradient Boosting)")
+
+# ===== TRAIN MODEL KHUSUS =====
+gb_model, rmse, r2, features = train_gradient_boosting(df)
+
+st.write(f"Model RMSE: {rmse:.2f}")
+st.write(f"Model R2: {r2:.2f}")
+
+st.divider()
+
+st.subheader("Input Scenario")
+
+# ===== INPUT =====
+base_price = st.number_input("Base Price", value=50)
+discount_pct = st.slider("Discount (%)", 0.0, 0.5, 0.1)
+
+current_sell_price = base_price * (1 - discount_pct)
+
+fb_ad_spend = st.number_input("Facebook Ads Spend", value=100)
+tiktok_ad_spend = st.number_input("TikTok Ads Spend", value=100)
+affiliate_commission_rate = st.slider("Affiliate Commission", 0.0, 0.3, 0.1)
+
+st.write(f"💰 Final Selling Price: {current_sell_price:.2f}")
+
+# ===== PREDICT =====
+if st.button("🚀 Predict Sales"):
+
+    input_data = {
+        'base_price': base_price,
+        'discount_pct': discount_pct,
+        'current_sell_price': current_sell_price,
+        'fb_ad_spend': fb_ad_spend,
+        'tiktok_ad_spend': tiktok_ad_spend,
+        'affiliate_commission_rate': affiliate_commission_rate
+    }
+
+    prediction = predict_sales(gb_model, input_data)
+
+    st.success(f"📈 Predicted Daily Sales: {prediction:.0f} units")
+
+    # ===== INSIGHT =====
+    avg_sales = df['sales_quantity'].mean()
+
+    if prediction > avg_sales:
+        st.success("🔥 Di atas rata-rata — strategi ini berpotensi meningkatkan penjualan")
+    else:
+        st.warning("⚠️ Di bawah rata-rata — perlu optimasi strategi")
