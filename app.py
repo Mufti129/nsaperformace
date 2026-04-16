@@ -3,7 +3,8 @@ import pandas as pd
 import os
 
 from analysis import load_data, clean_data, summary_stats, marketing_analysis, pricing_analysis
-from model import train_model
+#from model import train_model
+from model import train_and_compare_models
 from utils import generate_recommendation
 
 st.title("📊 E-commerce Omnichannel Analysis Dashboard")
