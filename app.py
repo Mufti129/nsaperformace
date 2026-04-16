@@ -117,7 +117,7 @@ st.info(insight_model_advanced(results_df, best_model_name, importance_df, df))
 
 
 # ===== 5. Simulator based on best model =====
-st.header("5. Sales Prediction Simulator (Gradient Boosting)")
+st.header("5. Sales Prediction (Gradient Boosting)")
 
 # ===== TRAIN MODEL KHUSUS =====
 gb_model, rmse, r2, features = train_gradient_boosting(df)
