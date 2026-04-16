@@ -10,6 +10,7 @@ from utils import (
     insight_model,
     insight_model_advanced
 )
+from utils import generate_auto_report
 from analysis import load_data, clean_data, summary_stats, marketing_analysis, pricing_analysis
 #from model import train_model
 from model import train_and_compare_models
