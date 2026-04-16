@@ -176,7 +176,7 @@ recommendation = generate_recommendation(corr, importance_df)
 for r in recommendation:
     st.write("-", r)
 
-st.header("7. 📄 Auto Business Report")
+st.header("7. Auto Business Report")
 
 report = generate_auto_report(
     df,
@@ -190,7 +190,7 @@ report = generate_auto_report(
 
 st.text_area("Auto Generated Report", report, height=500)
 st.download_button(
-    label="📥 Download Report",
+    label="Download Report",
     data=report,
     file_name="business_report.txt",
     mime="text/plain"
