@@ -27,7 +27,9 @@ df = clean_data(df)
 st.subheader("DEBUG INFO")
 st.write("Shape:", df.shape)
 st.write("Columns:", df.columns)
-
+with st.expander("🔍 Debug Info (Klik untuk buka/tutup)"):
+    st.write("Shape:", df.shape)
+    st.write("Columns:", df.columns)
 # ===== 1. SUMMARY =====
 st.header("1. Data Summary")
 
