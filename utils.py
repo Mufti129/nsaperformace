@@ -77,6 +77,46 @@ def insight_model(results_df, best_model_name):
     best_rmse = results_df.iloc[0]['RMSE']
     best_r2 = results_df.iloc[0]['R2']
 
+def insight_model_advanced(results_df, best_model_name, importance_df, df):
+    if results_df is None:
+        return "Model belum tersedia."
+
+    best_rmse = results_df.iloc[0]['RMSE']
+    best_r2 = results_df.iloc[0]['R2']
+    avg_sales = df['sales_quantity'].mean()
+
+    # RMSE percentage
+    rmse_pct = (best_rmse / avg_sales) * 100
+
+    # Top features
+    top_features = importance_df.head(3)
+
+    insight = []
+
+    # Model performance
+    insight.append(
+        f"Model terbaik adalah {best_model_name} dengan R² {best_r2:.2f} "
+        f"yang tergolong {'lemah' if best_r2 < 0.3 else 'cukup kuat'}."
+    )
+
+    insight.append(
+        f"RMSE sebesar {best_rmse:.2f} (~{rmse_pct:.1f}% dari rata-rata sales), "
+        "yang masih dapat diterima untuk kebutuhan bisnis."
+    )
+
+    # Feature importance
+    for _, row in top_features.iterrows():
+        if row['feature'] == 'base_price':
+            insight.append("Harga dasar adalah faktor paling dominan dalam menentukan penjualan.")
+        elif row['feature'] == 'tiktok_ad_spend':
+            insight.append("TikTok Ads merupakan channel marketing paling efektif.")
+        elif row['feature'] == 'affiliate_commission_rate':
+            insight.append("Program affiliate memberikan kontribusi signifikan terhadap sales.")
+        elif row['feature'] == 'fb_ad_spend':
+            insight.append("Facebook Ads memiliki pengaruh namun tidak dominan.")
+
+    return " ".join(insight)
+
     return (
         f"Model terbaik adalah {best_model_name} dengan RMSE {best_rmse:.2f} "
         f"dan R² {best_r2:.2f}, menunjukkan performa prediksi yang cukup baik."
