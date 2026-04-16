@@ -7,6 +7,7 @@ from analysis import load_data, clean_data, summary_stats, marketing_analysis, p
 from model import train_and_compare_models
 from utils import generate_recommendation
 from utils import insight_model_advanced
+from model import train_gradient_boosting, predict_sales
 
 st.title("E-commerce Omnichannel Analysis Dashboard")
 
