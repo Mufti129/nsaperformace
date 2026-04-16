@@ -118,3 +118,11 @@ def train_gradient_boosting(df):
     r2 = r2_score(y_test, y_pred)
 
     return model, rmse, r2, features
+
+def predict_sales(model, input_data):
+    import pandas as pd
+
+    input_df = pd.DataFrame([input_data])
+    prediction = model.predict(input_df)[0]
+
+    return prediction
