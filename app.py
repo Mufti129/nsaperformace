@@ -6,6 +6,7 @@ from analysis import load_data, clean_data, summary_stats, marketing_analysis, p
 #from model import train_model
 from model import train_and_compare_models
 from utils import generate_recommendation
+from utils import insight_model_advanced
 
 st.title("E-commerce Omnichannel Analysis Dashboard")
 
@@ -119,6 +120,8 @@ st.subheader(f"Best Model: {best_model_name}")
 st.subheader("Feature Importance")
 st.bar_chart(importance_df.set_index("feature"))
 st.info(insight_model(results_df, best_model_name))
+st.subheader("Insight Model (Auto Explanation)")
+st.info(insight_model_advanced(results_df, best_model_name, importance_df, df))
 # ===== 5. RECOMMENDATION =====
 st.header("5. Business Recommendation")
 
