@@ -3,28 +3,28 @@ def generate_recommendation(corr, importance_df):
 
     # Marketing insight
     if corr.loc['sales_quantity', 'tiktok_ad_spend'] > corr.loc['sales_quantity', 'fb_ad_spend']:
-        #rec.append("Shift more budget to TikTok Ads due to higher impact on sales.")
-        rec.append("Alihkan sebagian anggaran ke TikTok Ads karena memiliki dampak yang lebih besar terhadap penjualan.")
+        rec.append("Shift more budget to TikTok Ads due to higher impact on sales.")
+        #rec.append("Alihkan sebagian anggaran ke TikTok Ads karena memiliki dampak yang lebih besar terhadap penjualan.")
     else:
-        #rec.append("Facebook Ads remains a strong channel, maintain investment.")
-        rec.append("Facebook Ads tetap menjadi channel yang kuat, pertahankan atau optimalkan investasinya.")
+        rec.append("Facebook Ads remains a strong channel, maintain investment.")
+        #rec.append("Facebook Ads tetap menjadi channel yang kuat, pertahankan atau optimalkan investasinya.")
     # Feature importance
     top_features = importance_df.head(3)
 
     for _, row in top_features.iterrows():
         if row['feature'] == 'discount_pct':
-            #rec.append("Discount strategy significantly impacts sales. Apply targeted promotions.")
-            rec.append("Strategi diskon memiliki pengaruh signifikan terhadap penjualan. Gunakan promosi secara lebih terarah.")
+            rec.append("Discount strategy significantly impacts sales. Apply targeted promotions.")
+            #rec.append("Strategi diskon memiliki pengaruh signifikan terhadap penjualan. Gunakan promosi secara lebih terarah.")
         elif row['feature'] == 'current_sell_price':
-            #rec.append("Pricing plays a key role. Optimize price positioning.")
-            rec.append("Harga jual memiliki peran penting dalam penjualan. Optimalkan strategi penetapan harga.")
+            rec.append("Pricing plays a key role. Optimize price positioning.")
+            #rec.append("Harga jual memiliki peran penting dalam penjualan. Optimalkan strategi penetapan harga.")
         elif row['feature'] == 'tiktok_ad_spend':
-            #rec.append("TikTok Ads is a major driver. Consider scaling this channel.")
-            rec.append("TikTok Ads merupakan pendorong utama penjualan. Pertimbangkan untuk meningkatkan skala channel ini.")
+            rec.append("TikTok Ads is a major driver. Consider scaling this channel.")
+            #rec.append("TikTok Ads merupakan pendorong utama penjualan. Pertimbangkan untuk meningkatkan skala channel ini.")
         elif row['feature'] == 'fb_ad_spend':
         elif row['feature'] == 'fb_ad_spend':
-            #rec.append("Facebook Ads contributes to sales. Optimize campaign efficiency.")
-            rec.append("Facebook Ads berkontribusi terhadap penjualan, namun perlu dioptimalkan agar lebih efisien.")
+            rec.append("Facebook Ads contributes to sales. Optimize campaign efficiency.")
+            #rec.append("Facebook Ads berkontribusi terhadap penjualan, namun perlu dioptimalkan agar lebih efisien.")
 
     return rec
 
