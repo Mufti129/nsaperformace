@@ -136,3 +136,143 @@ def insight_model_advanced(results_df, best_model_name, importance_df, df):
             insight.append("Facebook Ads berpengaruh namun tidak dominan.")
 
     return " ".join(insight)
+
+def generate_auto_report(
+    df,
+    corr,
+    discount_impact,
+    price_impact,
+    results_df,
+    best_model_name,
+    importance_df
+):
+    if df is None:
+        return "Data tidak tersedia untuk membuat laporan."
+
+    report = []
+
+    # ======================
+    # 1. DATA SUMMARY
+    # ======================
+    avg_sales = df['sales_quantity'].mean()
+
+    report.append("1. DATA SUMMARY")
+    report.append(
+        f"Selama periode analisis, tercatat {df.shape[0]} data transaksi dengan rata-rata penjualan "
+        f"{avg_sales:.2f} unit per hari. Hal ini menunjukkan baseline performa bisnis saat ini."
+    )
+
+    report.append(
+        "Variasi penjualan yang terjadi mengindikasikan adanya pengaruh dari faktor eksternal seperti strategi harga dan aktivitas marketing."
+    )
+
+    # ======================
+    # 2. MARKETING ANALYSIS
+    # ======================
+    if corr is not None:
+        fb = corr.loc['sales_quantity', 'fb_ad_spend']
+        tt = corr.loc['sales_quantity', 'tiktok_ad_spend']
+
+        report.append("\n2. MARKETING ANALYSIS")
+
+        if tt > fb:
+            report.append(
+                f"Analisis menunjukkan bahwa TikTok Ads memiliki pengaruh lebih kuat terhadap penjualan (korelasi {tt:.2f}) dibandingkan Facebook Ads ({fb:.2f})."
+            )
+            report.append(
+                "Hal ini mengindikasikan bahwa audiens TikTok lebih responsif terhadap kampanye yang dijalankan."
+            )
+            report.append(
+                "Implikasinya, peningkatan alokasi budget ke TikTok Ads berpotensi memberikan peningkatan penjualan yang lebih signifikan."
+            )
+        else:
+            report.append(
+                f"Facebook Ads menunjukkan pengaruh lebih besar (korelasi {fb:.2f}) dibandingkan TikTok Ads ({tt:.2f})."
+            )
+            report.append(
+                "Ini menunjukkan bahwa channel Facebook masih menjadi pendorong utama penjualan."
+            )
+            report.append(
+                "Implikasinya, strategi optimasi Facebook Ads perlu diprioritaskan."
+            )
+
+    # ======================
+    # 3. PRICING ANALYSIS
+    # ======================
+    if discount_impact is not None and price_impact is not None:
+        best_discount = discount_impact.idxmax()
+        best_price = price_impact.idxmax()
+
+        report.append("\n3. PRICING ANALYSIS")
+
+        report.append(
+            f"Dari sisi pricing, diskon sebesar {best_discount} memberikan performa penjualan terbaik, "
+            f"sementara harga {best_price} menjadi titik optimal dalam mendorong volume penjualan."
+        )
+
+        report.append(
+            "Hal ini menunjukkan bahwa konsumen cukup sensitif terhadap perubahan harga dan promosi."
+        )
+
+        report.append(
+            "Implikasinya, strategi pricing dan diskon dapat digunakan sebagai lever utama untuk meningkatkan penjualan."
+        )
+
+    # ======================
+    # 4. MODEL ANALYSIS
+    # ======================
+    if results_df is not None:
+        best_rmse = results_df.iloc[0]['RMSE']
+        best_r2 = results_df.iloc[0]['R2']
+
+        avg_sales = df['sales_quantity'].mean()
+        rmse_pct = (best_rmse / avg_sales) * 100
+
+        report.append("\n4. MODEL ANALYSIS")
+
+        report.append(
+            f"Model terbaik yang digunakan adalah {best_model_name} dengan nilai R² sebesar {best_r2:.2f}."
+        )
+
+        report.append(
+            "Berdasarkan rule of thumb, nilai ini menunjukkan bahwa model masih memiliki kemampuan prediksi yang terbatas."
+        )
+
+        report.append(
+            f"Namun, tingkat error (RMSE) sebesar {best_rmse:.2f} atau sekitar {rmse_pct:.1f}% dari rata-rata penjualan masih dapat diterima untuk kebutuhan bisnis."
+        )
+
+        top_features = importance_df.head(3)['feature'].tolist()
+
+        report.append(
+            f"Faktor utama yang mempengaruhi penjualan adalah {top_features}."
+        )
+
+        report.append(
+            "Hal ini mengindikasikan bahwa kombinasi antara pricing dan channel marketing menjadi driver utama performa penjualan."
+        )
+
+    # ======================
+    # 5. BUSINESS RECOMMENDATION
+    # ======================
+    report.append("\n5. BUSINESS RECOMMENDATION")
+
+    if corr is not None:
+        if corr.loc['sales_quantity', 'tiktok_ad_spend'] > corr.loc['sales_quantity', 'fb_ad_spend']:
+            report.append(
+                "Disarankan untuk meningkatkan alokasi anggaran pada TikTok Ads sebagai channel utama pertumbuhan."
+            )
+        else:
+            report.append(
+                "Disarankan untuk mempertahankan dan mengoptimalkan Facebook Ads sebagai channel utama."
+            )
+
+    report.append(
+        "Selain itu, optimalisasi strategi harga dan diskon perlu dilakukan untuk meningkatkan konversi penjualan."
+    )
+
+    report.append(
+        "Fokus pada faktor-faktor utama yang telah diidentifikasi akan membantu meningkatkan efektivitas strategi bisnis secara keseluruhan."
+    )
+
+    return "\n".join(report)
