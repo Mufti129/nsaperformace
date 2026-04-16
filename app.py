@@ -57,16 +57,6 @@ st.header("3. Pricing Impact")
 discount_impact, price_impact = pricing_analysis(df)
 
 if discount_impact is not None:
-    st.line_chart(discount_impact)
-    st.line_chart(price_impact)
-else:
-    st.error("❌ Pricing analysis gagal")
-
-st.header("3. Pricing Impact")
-
-discount_impact, price_impact = pricing_analysis(df)
-
-if discount_impact is not None:
 
     # ===== DISCOUNT =====
     st.subheader("Discount vs Sales")
