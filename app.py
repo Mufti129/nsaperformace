@@ -7,7 +7,7 @@ from analysis import load_data, clean_data, summary_stats, marketing_analysis, p
 from model import train_and_compare_models
 from utils import generate_recommendation
 
-st.title("📊 E-commerce Omnichannel Analysis Dashboard")
+st.title("E-commerce Omnichannel Analysis Dashboard")
 
 # ===== LOAD DATA =====
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -77,7 +77,7 @@ st.bar_chart(importance_df.set_index("feature"))
 # ===== 5. RECOMMENDATION =====
 st.header("5. Business Recommendation")
 
-recommendation = generate_recommendation(corr, importance, features)
-
+#recommendation = generate_recommendation(corr, importance, features)
+recommendation = generate_recommendation(corr, importance_df)
 for r in recommendation:
     st.write("-", r)
