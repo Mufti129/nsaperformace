@@ -2,14 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 from utils import generate_recommendation,insight_summary,insight_marketing,insight_pricing,insight_model
-from utils import (
-    generate_recommendation,
-    insight_summary,
-    insight_marketing,
-    insight_pricing,
-    insight_model,
-    insight_model_advanced
-)
 
 from analysis import load_data, clean_data, summary_stats, marketing_analysis, pricing_analysis
 #from model import train_model
