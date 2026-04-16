@@ -14,7 +14,9 @@ df = clean_data(df)
 # ===== SUMMARY =====
 st.header("1. Data Summary")
 st.write(summary_stats(df))
-
+st.write("DEBUG summary:")
+st.write(type(summary))
+st.write(summary)
 # ===== MARKETING =====
 st.header("2. Marketing Analysis")
 corr, df = marketing_analysis(df)
