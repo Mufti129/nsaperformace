@@ -35,7 +35,18 @@ if summary is not None:
     st.dataframe(summary)
 else:
     st.error("❌ Summary gagal ditampilkan (data kosong / error)")
+###ganti
+st.header("1. Data Summary")
 
+summary = summary_stats(df)
+
+if summary is not None:
+    st.dataframe(summary)
+
+    st.info(insight_summary(df))
+else:
+    st.error("Summary gagal")
+    ###ganti#
 # ===== EXTRA VALIDATION =====
 st.subheader("Missing Values")
 st.write(df.isnull().sum())
@@ -50,6 +61,18 @@ if corr is not None:
     st.dataframe(corr)
 else:
     st.error("❌ Marketing analysis gagal")
+##
+st.header("2. Marketing Analysis")
+
+corr, df = marketing_analysis(df)
+
+if corr is not None:
+    st.dataframe(corr)
+
+    st.info(insight_marketing(corr))
+else:
+    st.error("Marketing gagal")
+##
 
 # ===== 3. PRICING =====
 st.header("3. Pricing Impact")
@@ -82,7 +105,7 @@ if discount_impact is not None:
 
 else:
     st.error("❌ Pricing analysis gagal")
-
+st.info(insight_pricing(discount_impact, price_impact))
 # ===== 4. MODEL =====
 st.header("4. Predictive Model Comparison")
 
@@ -95,6 +118,7 @@ st.subheader(f"Best Model: {best_model_name}")
 
 st.subheader("Feature Importance")
 st.bar_chart(importance_df.set_index("feature"))
+st.info(insight_model(results_df, best_model_name))
 # ===== 5. RECOMMENDATION =====
 st.header("5. Business Recommendation")
 
