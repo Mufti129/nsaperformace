@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import os
-#from utils import generate_recommendation,insight_summary,insight_marketing,insight_pricing,insight_model
 from utils import (
     generate_recommendation,
     insight_summary,
@@ -12,7 +11,6 @@ from utils import (
 )
 from utils import generate_auto_report
 from analysis import load_data, clean_data, summary_stats, marketing_analysis, pricing_analysis
-#from model import train_model
 from model import train_and_compare_models
 from utils import generate_recommendation
 from utils import insight_model_advanced
@@ -27,7 +25,7 @@ file_path = os.path.join(BASE_DIR, "data", "ecommerce-omnichannel-analysis.csv")
 df = load_data(file_path)
 
 if df is None:
-    st.error("❌ Data gagal dimuat. Cek path atau file CSV.")
+    st.error("Data gagal dimuat. Cek path atau file CSV.")
     st.stop()
 
 df = clean_data(df)
@@ -36,7 +34,7 @@ df = clean_data(df)
 #st.subheader("DEBUG INFO")
 #st.write("Shape:", df.shape)
 #st.write("Columns:", df.columns)
-with st.expander("🔍 Debug Info (Klik untuk buka/tutup)"):
+with st.expander("Debug Info (Klik untuk buka/tutup)"):
     st.write("Shape:", df.shape)
     st.write("Columns:", df.columns)
 # ===== 1. SUMMARY =====
@@ -176,7 +174,7 @@ recommendation = generate_recommendation(corr, importance_df)
 for r in recommendation:
     st.write("-", r)
 
-st.header("7. Auto Business Report")
+st.header("7. Business Report")
 
 report = generate_auto_report(
     df,
