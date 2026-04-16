@@ -35,15 +35,6 @@ summary = summary_stats(df)
 
 if summary is not None:
     st.dataframe(summary)
-else:
-    st.error("❌ Summary gagal ditampilkan (data kosong / error)")
-###ganti
-st.header("1. Data Summary")
-
-summary = summary_stats(df)
-
-if summary is not None:
-    st.dataframe(summary)
 
     st.info(insight_summary(df))
 else:
@@ -54,16 +45,6 @@ st.subheader("Missing Values")
 st.write(df.isnull().sum())
 
 # ===== 2. MARKETING =====
-st.header("2. Marketing Analysis")
-
-corr, df = marketing_analysis(df)
-
-if corr is not None:
-    st.write("Correlation Matrix")
-    st.dataframe(corr)
-else:
-    st.error("❌ Marketing analysis gagal")
-##
 st.header("2. Marketing Analysis")
 
 corr, df = marketing_analysis(df)
@@ -86,10 +67,10 @@ if discount_impact is not None:
     # ===== DISCOUNT =====
     st.subheader("Discount vs Sales")
 
-    st.write("📊 Comparison (Bar Chart)")
+    st.write("Comparison (Bar Chart)")
     st.bar_chart(discount_impact)
 
-    st.write("📈 Trend View (Line Chart)")
+    st.write("Trend View (Line Chart)")
     st.line_chart(discount_impact)
 
     st.dataframe(discount_impact)
@@ -97,16 +78,16 @@ if discount_impact is not None:
     # ===== PRICE =====
     st.subheader("Price vs Sales")
 
-    st.write("📊 Comparison (Bar Chart)")
+    st.write("Comparison (Bar Chart)")
     st.bar_chart(price_impact)
 
-    st.write("📈 Trend View (Line Chart)")
+    st.write("Trend View (Line Chart)")
     st.line_chart(price_impact)
 
     st.dataframe(price_impact)
 
 else:
-    st.error("❌ Pricing analysis gagal")
+    st.error("Pricing analysis gagal")
 st.info(insight_pricing(discount_impact, price_impact))
 # ===== 4. MODEL =====
 st.header("4. Predictive Model Comparison")
@@ -123,15 +104,10 @@ st.bar_chart(importance_df.set_index("feature"))
 st.info(insight_model(results_df, best_model_name))
 st.subheader("Insight Model (Auto Explanation)")
 st.info(insight_model_advanced(results_df, best_model_name, importance_df, df))
-# ===== 5. RECOMMENDATION =====
-st.header("5. Business Recommendation")
 
-#recommendation = generate_recommendation(corr, importance, features)
-recommendation = generate_recommendation(corr, importance_df)
-for r in recommendation:
-    st.write("-", r)
 
-st.header("6. Sales Prediction Simulator (Gradient Boosting)")
+# ===== 5. Simulator based on best model =====
+st.header("5. Sales Prediction Simulator (Gradient Boosting)")
 
 # ===== TRAIN MODEL KHUSUS =====
 gb_model, rmse, r2, features = train_gradient_boosting(df)
@@ -153,10 +129,10 @@ fb_ad_spend = st.number_input("Facebook Ads Spend", value=100)
 tiktok_ad_spend = st.number_input("TikTok Ads Spend", value=100)
 affiliate_commission_rate = st.slider("Affiliate Commission", 0.0, 0.3, 0.1)
 
-st.write(f"💰 Final Selling Price: {current_sell_price:.2f}")
+st.write(f"Final Selling Price: {current_sell_price:.2f}")
 
 # ===== PREDICT =====
-if st.button("🚀 Predict Sales"):
+if st.button("Predict Sales"):
 
     input_data = {
         'base_price': base_price,
@@ -169,12 +145,22 @@ if st.button("🚀 Predict Sales"):
 
     prediction = predict_sales(gb_model, input_data)
 
-    st.success(f"📈 Predicted Daily Sales: {prediction:.0f} units")
+    st.success(f"Predicted Daily Sales: {prediction:.0f} units")
 
     # ===== INSIGHT =====
     avg_sales = df['sales_quantity'].mean()
 
     if prediction > avg_sales:
-        st.success("🔥 Di atas rata-rata — strategi ini berpotensi meningkatkan penjualan")
+        st.success("Di atas rata-rata — strategi ini berpotensi meningkatkan penjualan")
     else:
-        st.warning("⚠️ Di bawah rata-rata — perlu optimasi strategi")
+        st.warning("Di bawah rata-rata — perlu optimasi strategi")
+
+
+# ===== 5. RECOMMENDATION =====
+st.header("6. Business Recommendation")
+
+#recommendation = generate_recommendation(corr, importance, features)
+recommendation = generate_recommendation(corr, importance_df)
+for r in recommendation:
+    st.write("-", r)
+
