@@ -62,6 +62,37 @@ if discount_impact is not None:
 else:
     st.error("❌ Pricing analysis gagal")
 
+st.header("3. Pricing Impact")
+
+discount_impact, price_impact = pricing_analysis(df)
+
+if discount_impact is not None:
+
+    # ===== DISCOUNT =====
+    st.subheader("Discount vs Sales")
+
+    st.write("📊 Comparison (Bar Chart)")
+    st.bar_chart(discount_impact)
+
+    st.write("📈 Trend View (Line Chart)")
+    st.line_chart(discount_impact)
+
+    st.dataframe(discount_impact)
+
+    # ===== PRICE =====
+    st.subheader("Price vs Sales")
+
+    st.write("📊 Comparison (Bar Chart)")
+    st.bar_chart(price_impact)
+
+    st.write("📈 Trend View (Line Chart)")
+    st.line_chart(price_impact)
+
+    st.dataframe(price_impact)
+
+else:
+    st.error("❌ Pricing analysis gagal")
+
 # ===== 4. MODEL =====
 st.header("4. Predictive Model Comparison")
 
