@@ -43,9 +43,10 @@ else:
     st.error("Summary gagal")
     ###ganti#
 # ===== EXTRA VALIDATION =====
-st.subheader("Missing Values")
-st.write(df.isnull().sum())
-
+#st.subheader("Missing Values")
+#st.write(df.isnull().sum())
+with st.expander("Missing Values (Klik untuk lihat)"):
+    st.write(df.isnull().sum())
 # ===== 2. MARKETING =====
 st.header("2. Marketing Analysis")
 
