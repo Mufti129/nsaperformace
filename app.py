@@ -24,9 +24,9 @@ if df is None:
 df = clean_data(df)
 
 # ===== DEBUG =====
-st.subheader("DEBUG INFO")
-st.write("Shape:", df.shape)
-st.write("Columns:", df.columns)
+#st.subheader("DEBUG INFO")
+#st.write("Shape:", df.shape)
+#st.write("Columns:", df.columns)
 with st.expander("🔍 Debug Info (Klik untuk buka/tutup)"):
     st.write("Shape:", df.shape)
     st.write("Columns:", df.columns)
