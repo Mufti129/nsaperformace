@@ -112,7 +112,7 @@ st.subheader(f"Best Model: {best_model_name}")
 st.subheader("Feature Importance")
 st.bar_chart(importance_df.set_index("feature"))
 st.info(insight_model(results_df, best_model_name))
-st.subheader("Insight Model (Auto Explanation)")
+st.subheader("Insight Model")
 st.info(insight_model_advanced(results_df, best_model_name, importance_df, df))
 
 
