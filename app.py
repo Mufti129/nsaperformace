@@ -62,20 +62,17 @@ else:
     st.error("❌ Pricing analysis gagal")
 
 # ===== 4. MODEL =====
-st.header("4. Predictive Model")
+st.header("4. Predictive Model Comparison")
 
-model, rmse, r2, features, importance = train_model(df)
+best_model, best_model_name, results_df, importance_df = train_and_compare_models(df)
 
-st.write(f"RMSE: {rmse}")
-st.write(f"R2 Score: {r2}")
+st.subheader("Model Comparison")
+st.dataframe(results_df)
 
-importance_df = pd.DataFrame({
-    "feature": features,
-    "importance": importance
-}).sort_values(by="importance", ascending=False)
+st.subheader(f"Best Model: {best_model_name}")
 
+st.subheader("Feature Importance")
 st.bar_chart(importance_df.set_index("feature"))
-
 # ===== 5. RECOMMENDATION =====
 st.header("5. Business Recommendation")
 
